@@ -20,7 +20,9 @@ def main():
     print(elvesCaloriesFlat)
     totalCaloriesPerElv = aggregateCaloriesPerElv(elvesCaloriesFlat)
     print(totalCaloriesPerElv)
-    #maximum = max(totalCaloriesPerElve)
+    maximum = max(totalCaloriesPerElv)
+    maximum_index = totalCaloriesPerElv.index(maximum)
+    print('The elve at position ', maximum_index+1, 'is carring the most calories, a total of: ', maximum)
 
 if __name__ == "__main__":
     main()
