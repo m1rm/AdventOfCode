@@ -1,15 +1,25 @@
 def readElvesList():
-    # todo: read input txt into array of arrays
     with open('input.txt') as f:
         return f.readlines()
 
-#aggregateCaloriesPerElv(elvesCaloriesFlat):
-    # todo: add up inner arrays
+def aggregateCaloriesPerElv(elvesCaloriesFlat):
+    tmp = 0
+    aggregate = []
+    for item in elvesCaloriesFlat:
+        if item != "\n":
+            num = int(item.strip())
+            tmp += num
+        else:
+            aggregate.append(tmp)
+            tmp = 0
+    aggregate.append(tmp)
+    return aggregate
 
 def main():
     elvesCaloriesFlat = readElvesList()
     print(elvesCaloriesFlat)
-    #totalCaloriesPerElve = aggregateCaloriesPerElv()
+    totalCaloriesPerElv = aggregateCaloriesPerElv(elvesCaloriesFlat)
+    print(totalCaloriesPerElv)
     #maximum = max(totalCaloriesPerElve)
 
 if __name__ == "__main__":
