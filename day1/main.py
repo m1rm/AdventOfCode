@@ -1,5 +1,5 @@
 def readElvesList():
-    with open('input.txt') as f:
+    with open('challenge_input.txt') as f:
         return f.readlines()
 
 def aggregateCaloriesPerElv(elvesCaloriesFlat):
