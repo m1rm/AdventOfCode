@@ -16,11 +16,17 @@ def aggregateCaloriesPerElv(elvesCaloriesFlat):
     return aggregate
 
 def main():
+    # Part One
     elvesCaloriesFlat = readElvesList()
     totalCaloriesPerElv = aggregateCaloriesPerElv(elvesCaloriesFlat)
     maximum = max(totalCaloriesPerElv)
     maximum_index = totalCaloriesPerElv.index(maximum)
     print('The elve at position ', maximum_index+1, 'is carring the most calories, a total of: ', maximum)
+
+    # Part Two
+    sortedCalories = sorted(totalCaloriesPerElv)
+    maxThree = sortedCalories[-3:]
+    print('The elves with the three highest calories amounts carried are carrying in total: ', sum(maxThree))
 
 if __name__ == "__main__":
     main()
