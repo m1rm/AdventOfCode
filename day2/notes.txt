@@ -1,0 +1,26 @@
+Score for selection:
+1 Rock
+2 Paper
+3 Scissors
+
+A Rock
+B Paper
+C Scissors
+
+X Rock
+Y Paper
+Z Scissors
+
+winning conditions:
+A > C
+B > A
+C > B
+& vice versa
+C < A
+A < B
+B < C
+
+scores for game:
+loose : 0
+draw: 3
+win: 6
