@@ -15,19 +15,16 @@ function lines_from(file)
   return lines
 end
 
-local file = 'exemplary_input.txt'
+local file = 'challenge_input.txt'
 local lines = lines_from(file)
 
 local score = 0
 
 for index,game in pairs(lines) do
-  print('game: ', game)
   if (game == 'A X' or game == 'B Y' or game == 'C Z') then
-    print('draw')
     score = score + 3
   end
-  if (game == 'A Y' or game == 'B Z' or game == 'C Y') then
-    print('win')
+  if (game == 'A Y' or game == 'B Z' or game == 'C X') then
     score = score + 6
   end
   if (string.match(game, 'X')) then
