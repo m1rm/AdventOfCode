@@ -18,6 +18,27 @@ end
 local file = 'exemplary_input.txt'
 local lines = lines_from(file)
 
-for k,v in pairs(lines) do
-  print(k,v)
+local score = 0
+
+for index,game in pairs(lines) do
+  print('game: ', game)
+  if (game == 'A X' or game == 'B Y' or game == 'C Z') then
+    print('draw')
+    score = score + 3
+  end
+  if (game == 'A Y' or game == 'B Z' or game == 'C Y') then
+    print('win')
+    score = score + 6
+  end
+  if (string.match(game, 'X')) then
+    score = score +1
+  end
+  if (string.match(game, 'Y')) then
+    score = score + 2
+  end
+  if (string.match(game, 'Z')) then
+    score = score + 3
+  end
 end
+
+print('score: ', score)
