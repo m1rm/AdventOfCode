@@ -15,8 +15,6 @@ function lines_from(file)
   return lines
 end
 
-local input = lines_from('challenge_input.txt')
-
 local priority_map = {
   a=1, A=27,
   b=2, B=28,
@@ -46,4 +44,16 @@ local priority_map = {
   z=26, Z=52
 }
 
-print(priority_map['a'])
+local input = lines_from('challenge_input.txt')
+
+for index,goods in pairs(lines) do
+  --[[
+  Todo:
+  split each string in half
+  iterate each letter
+  if char(letter) equals in both strings, add to sum
+  can stop as soon as first match is found, since elv failed for exactly one item only
+  ]]--
+end
+
+print(priority_map['P'])
