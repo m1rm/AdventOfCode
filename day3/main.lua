@@ -1,37 +1,6 @@
 local io = require "io"
 
-function file_exists(file)
-  local f = io.open(file, "rb")
-  if f then f:close() end
-  return f ~= nil
-end
-
-function lines_from(file)
-  if not file_exists(file) then return {} end
-  local lines = {}
-  for line in io.lines(file) do
-    lines[#lines + 1] = line
-  end
-  return lines
-end
-
-function calculate_score_by_matching_items(input)
-  local score = 0
-  for index,goods in pairs(input) do
-    local rucksack1 = string.sub(goods,1, #goods/2)
-    local rucksack2 = string.sub(goods, #goods/2+1, #goods)
-
-    for char in rucksack1:gmatch"." do
-      if(string.find(rucksack2, char)) then
-        score = score + priority_map[char]
-        break
-      end
-    end
-  end
-  return score
-end
-
-local priority_map = {
+priority_map = {
   a=1, A=27,
   b=2, B=28,
   c=3, C=29,
@@ -59,6 +28,38 @@ local priority_map = {
   y=25, Y=51,
   z=26, Z=52
 }
+
+function file_exists(file)
+  local f = io.open(file, "rb")
+  if f then f:close() end
+  return f ~= nil
+end
+
+function lines_from(file)
+  if not file_exists(file) then return {} end
+  local lines = {}
+  for line in io.lines(file) do
+    lines[#lines + 1] = line
+  end
+  return lines
+end
+
+function calculate_score_by_matching_items(input)
+
+  local score = 0
+  for index,goods in pairs(input) do
+    local rucksack1 = string.sub(goods,1, #goods/2)
+    local rucksack2 = string.sub(goods, #goods/2+1, #goods)
+
+    for char in rucksack1:gmatch"." do
+      if(string.find(rucksack2, char)) then
+        score = score + priority_map[char]
+        break
+      end
+    end
+  end
+  return score
+end
 
 local input = lines_from('challenge_input.txt')
 local item_priority_score = calculate_score_by_matching_items(input)
