@@ -64,4 +64,27 @@ end
 local input = lines_from('challenge_input.txt')
 local item_priority_score = calculate_score_by_matching_items(input)
 
-print(item_priority_score)
+local looper = 0
+local tmp = {}
+score = 0
+for index,goods in pairs(input) do
+  table.insert(tmp, goods)
+  looper = looper +1
+  if(looper == 3) then
+  --[[ as soon as a matching character is found, the loop can be stopped ]]--
+    for char in tmp[1]:gmatch"." do
+      if(string.find(tmp[2], char) and string.find(tmp[3], char)) then
+        score = score + priority_map[char]
+        break
+      end
+    end
+    --[[ reset helper variables for next triple ]]--
+    looper = 0
+    tmp[1] = nil
+    tmp[2] = nil
+    tmp[3] = nil
+  end
+end
+
+--[[print(item_priority_score)]]--
+print(score)
