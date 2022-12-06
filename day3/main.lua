@@ -46,14 +46,17 @@ local priority_map = {
 
 local input = lines_from('challenge_input.txt')
 
-for index,goods in pairs(lines) do
-  --[[
-  Todo:
-  split each string in half
-  iterate each letter
-  if char(letter) equals in both strings, add to sum
-  can stop as soon as first match is found, since elv failed for exactly one item only
-  ]]--
+local score = 0
+for index,goods in pairs(input) do
+  local rucksack1 = string.sub(goods,1, #goods/2)
+  local rucksack2 = string.sub(goods, #goods/2+1, #goods)
+
+  for char in rucksack1:gmatch"." do
+    if(string.find(rucksack2, char)) then
+      score = score + priority_map[char]
+      break
+    end
+  end
 end
 
-print(priority_map['P'])
+print(score)
