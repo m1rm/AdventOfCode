@@ -18,8 +18,11 @@ for index,sections in pairs(input) do
   local splitPair1 = split(splitPairs[1], '-')
   local splitPair2 = split(splitPairs[2], '-')
 
-  if ((splitPair1[1] <= splitPair2[1] and splitPair1[2] <= splitPair2[2]) or (splitPair1[1] >= splitPair2[1] and splitPair1[2] >= splitPair2[2])) then
+  if ((splitPair1[1] >= splitPair2[1] and splitPair1[2] <= splitPair2[2]) or (splitPair1[1] <= splitPair2[1] and splitPair1[2] >= splitPair2[2])) then
+    print(splitPairs[1], splitPairs[2], 'X')
     score = score +1
+  else
+    print(splitPairs[1], splitPairs[2])
   end
 
 end
