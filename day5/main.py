@@ -1,5 +1,5 @@
 def readInput():
-    with open('exemplary_input.txt') as f:
+    with open('challenge_input.txt') as f:
         return f.readlines()
 
 def moveOneByOne(crateStacks):
@@ -41,6 +41,6 @@ def main():
         crateStacks[int(splitInstructions[5])-1].extend(tmp)
 
     for stack in crateStacks:
-        print(stack)
+        print(stack[-1])
 if __name__ == "__main__":
     main()
