@@ -2,6 +2,20 @@ def readInput():
     with open('challenge_input.txt') as f:
         return f.readlines()
 
+def moveOneByOne(crateStacks):
+    for instruction in input:
+        instruction = instruction.strip()
+        splitInstructions = instruction.split(' ')
+        # index 1 = num to move
+        # index 3 = pile to move from -> pop out of array
+        # index 5 = pile to move to -> push to array
+        for i in range(1, int(splitInstructions[1])+1):
+            toMove = crateStacks[int(splitInstructions[3])-1].pop()
+            crateStacks[int(splitInstructions[5])-1].append(toMove)
+
+    for crate in crateStacks:
+        print(crate[-1])
+
 def main():
     # Part One
     input = readInput()
@@ -17,18 +31,7 @@ def main():
         ['H', 'N', 'W', 'L', 'C']
     ]
 
-    for instruction in input:
-        instruction = instruction.strip()
-        splitInstructions = instruction.split(' ')
-        # index 1 = num to move
-        # index 3 = pile to move from -> pop out of array
-        # index 5 = pile to move to -> push to array
-        for i in range(1, int(splitInstructions[1])+1):
-            toMove = crateStacks[int(splitInstructions[3])-1].pop()
-            crateStacks[int(splitInstructions[5])-1].append(toMove)
 
-    for crate in crateStacks:
-        print(crate[-1])
 
 if __name__ == "__main__":
     main()
