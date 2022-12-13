@@ -17,7 +17,6 @@ def moveOneByOne(crateStacks):
         print(crate[-1])
 
 def main():
-    # Part One
     input = readInput()
     crateStacks = [
         ['G', 'T', 'R', 'W'],
