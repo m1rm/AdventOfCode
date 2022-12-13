@@ -18,3 +18,17 @@ print(fileSizesSum)
 
 # only works when condition is to count every file once
 # challenge condition actually is: nested dirs are counted twice
+
+#############################################
+totalSum = 0
+for directory, content of directories.items():
+    dirSum = 0
+    for item of content:
+        if (type(item) == int):
+            dirSum += item
+        if (type(item) == string):
+
+
+{'/': [14848514, 8504156], 'a': [29116, 2557, 62596], 'e': [584], 'd': [4060174, 8033020, 5626152, 7214296]}
+
+# idea: replace strings in the value with the value of the dict key (in new dict)

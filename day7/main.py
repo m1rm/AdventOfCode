@@ -35,13 +35,14 @@ def main():
             if (isDirectory(lineContent[0])):
                 directories[tmpIndex].append(lineContent[1].strip())
 
+# {'/': [14848514, 8504156], 'a': [29116, 2557, 62596], 'e': [584], 'd': [4060174, 8033020, 5626152, 7214296]}
+
+
+
+
+
 
     print(directories)
-
-
-
-    # Todo: if an ls occours, make directory_sum first and check that one against condition
-
 
 if __name__ == "__main__":
     main()
