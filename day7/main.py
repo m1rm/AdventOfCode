@@ -10,25 +10,33 @@ def isInteger(string):
     except ValueError:
         return False
 
+def isDirectory(string):
+    string = string.strip()
+    if (string == 'dir'):
+        return True
+    else:
+        return False
+
 def main():
     input = readInput('exemplary_input.txt')
     directories = {}
     fileSizesSum = 0
-    tmpIndex = 0
+    tmpIndex = ''
     for index,line in enumerate(input):
+        line = line.strip()
         lineContent = line.split(' ')
-        if (lineContent[1].strip() == 'ls'):
-            tmpIndex = index
-            directories[tmpIndex] = []
-        if (isInteger(lineContent[0])):
-            directories[tmpIndex].append(int(lineContent[0]))
+        if (lineContent[1] == 'cd' and lineContent[2] != '..'):
+            if(lineContent[2] not in directories):
+                directories[lineContent[2]] = []
+                tmpIndex = lineContent[2]
+        if(lineContent[0] != '$'): # not a dollar = after ls
+            if (isInteger(lineContent[0])):
+                directories[tmpIndex].append(int(lineContent[0]))
+            if (isDirectory(lineContent[0])):
+                directories[tmpIndex].append(lineContent[1].strip())
 
-    for directoryList in directories.values():
-        if(sum(directoryList) <= 100000):
-            print(sum(directoryList))
-            fileSizesSum += sum(directoryList)
 
-    print(fileSizesSum)
+    print(directories)
 
 
 
