@@ -17,6 +17,14 @@ def isDirectory(string):
     else:
         return False
 
+# return False if any directory still contains a string == a nested dir key instead of the nested dirs values
+def isDirectoryReplacementComplete(directories):
+    if (any(isinstance(x, str) for directory in directories for x in directory)):
+        return False
+    else:
+        return True
+
+
 def main():
     input = readInput('exemplary_input.txt')
     directories = {}
@@ -36,13 +44,8 @@ def main():
                 directories[tmpIndex].append(lineContent[1].strip())
 
 # {'/': [14848514, 8504156], 'a': [29116, 2557, 62596], 'e': [584], 'd': [4060174, 8033020, 5626152, 7214296]}
-
-
-
-
-
-
     print(directories)
+    print(isDirectoryReplacementComplete(directories))
 
 if __name__ == "__main__":
     main()
