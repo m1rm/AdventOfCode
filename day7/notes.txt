@@ -1,0 +1,20 @@
+directories = {}
+fileSizesSum = 0
+tmpIndex = 0
+for index,line in enumerate(input):
+    lineContent = line.split(' ')
+    if (lineContent[1].strip() == 'ls'):
+        tmpIndex = index
+        directories[tmpIndex] = []
+    if (isInteger(lineContent[0])):
+        directories[tmpIndex].append(int(lineContent[0]))
+
+for directoryList in directories.values():
+    if(sum(directoryList) <= 100000):
+        print(sum(directoryList))
+        fileSizesSum += sum(directoryList)
+
+print(fileSizesSum)
+
+# only works when condition is to count every file once
+# challenge condition actually is: nested dirs are counted twice
