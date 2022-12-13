@@ -1,0 +1,14 @@
+for line in input:
+    counter = 0
+    for i in range(1, len(line)):
+        # check for unique sequence of 4 letters only when
+        # before excluded ones where skipped by looping without doing anything
+        if(i > counter):
+            uniqueSequenceSet = set(line[i:i+4])
+            # move counter to the next possible start
+            if(len(uniqueSequenceSet) != 4):
+                counter += 4
+                continue
+            else:
+                print(i)
+                break
