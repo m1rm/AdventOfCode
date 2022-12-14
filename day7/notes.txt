@@ -32,3 +32,17 @@ for directory, content of directories.items():
 {'/': [14848514, 8504156], 'a': [29116, 2557, 62596], 'e': [584], 'd': [4060174, 8033020, 5626152, 7214296]}
 
 # idea: replace strings in the value with the value of the dict key (in new dict)
+
+
+
+# print(directories) # {'/': ['a', 14848514, 8504156, 'd'], 'a': ['e', 29116, 2557, 62596], 'e': [584], 'd': [4060174, 8033020, 5626152, 7214296]}
+    directoriesClone = copy.deepcopy(directories)
+    keepLooping = True
+    while (keepLooping):
+        keepLooping = (isDirectoryReplacementIncomplete(directories))
+        for key, directory in directories.items():
+            for entry in directory:
+                if (entry in directories):
+                    # if current entry is a key, replace it with with original entries value at that key
+                    entryIndex = directory.index(entry)
+                    directory[entryIndex] = directoriesClone[entry]
