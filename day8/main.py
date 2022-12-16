@@ -11,7 +11,7 @@ def readInput(filename):
     return tmp
 
 def main():
-    input = readInput('exemplary_input.txt')
+    input = readInput('challenge_input.txt')
     #      0  1  2  3  4
     #  0 [[3, 0, 3, 7, 3],
     #  1 [2, 5, 5, 1, 2],
@@ -45,24 +45,24 @@ def main():
                     lowerRows = input[rowIndex+1:]
                     #print(leftInRow)
                     #print(rightInRow)
-                    print('upper rows: ')
-                    print(upperRows)
-                    print('lower rows: ')
-                    print(lowerRows)
+                    #print('upper rows: ')
+                    #print(upperRows)
+                    #print('lower rows: ')
+                    #print(lowerRows)
 
                     if (value > max(leftInRow) or value > max(rightInRow)):
                         sumInnerTrees += 1
-                        break
                     else:
                         tmp = []
                         tmp2 = []
                         for row in upperRows:
                             tmp.append(row[colIndex])
                         for row in lowerRows:
-                            tmp.append(row[colIndex])
+                            tmp2.append(row[colIndex])
 
                         if (value > max(tmp) or value > max(tmp2)):
                             sumInnerTrees += 1
+
 
 
     sumTrees = sumInnerTrees + len(input) + len(input) + lenRow + lenRow - 4
