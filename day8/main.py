@@ -1,3 +1,5 @@
+import math
+
 def readInput(filename):
     tmp = []
     with open(filename) as f:
@@ -10,6 +12,13 @@ def readInput(filename):
             tmp.append(tmpLine)
     return tmp
 
+# exemplary input
+#      0  1  2  3  4
+#  0 [[3, 0, 3, 7, 3],
+#  1 [2, 5, 5, 1, 2],
+#  2 [6, 5, 3, 3, 2],
+#  3 [3, 3, 5, 4, 9],
+#  4 [3, 5, 3, 9, 0]]
 def calcNumOfVisibleInnerTrees(input):
     sumInnerTrees = 0
     lenRow = 0
@@ -58,19 +67,77 @@ def calcNumOfVisibleInnerTrees(input):
 
 
 def main():
-    input = readInput('challenge_input.txt')
-    #      0  1  2  3  4
-    #  0 [[3, 0, 3, 7, 3],
-    #  1 [2, 5, 5, 1, 2],
-    #  2 [6, 5, 3, 3, 2],
-    #  3 [3, 3, 5, 4, 9],
-    #  4 [3, 5, 3, 9, 0]]
-    sumInnerTrees, lenRow = calcNumOfVisibleInnerTrees(input)
+    input = readInput('exemplary_input.txt')
+    scenicScoreArrays = []
+    for rowIndex, row in enumerate(input):
+        if (rowIndex == 0 or rowIndex+1 == len(input)):
+            continue #bc. outer rows might not count
+        else:
+            for colIndex, value in enumerate(row):
+                if(colIndex == 0 or colIndex+1 == len(row)):
+                    continue #bc. outer cols might not count
+                else:
+                    currentTreeScenicScoreValues = []
+                    # make ranges for left, right, upper and lower
+                    # neighbours and check if max of value is highest
+                    # as soon as it is highest for one direction of neighbour
+                    # add one to the sum of visible trees from outside the grid
+
+                    # left is all lower col indices and equal row index
+                    # right is vice versa left
+                    # up is all lower row indices and equal col index
+                    # down is vice versa
+                    leftInRow = input[rowIndex][:colIndex]
+                    rightInRow = input[rowIndex][colIndex+1:]
+                    upperRows = input[:rowIndex]
+                    lowerRows = input[rowIndex+1:]
+
+                    for tree in leftInRow:
+                        if value > tree:
+                            currentTreeScenicScoreValues.append(tree)
+                        elif value == tree:
+                            currentTreeScenicScoreValues.append(tree)
+                            break
+                        break
+                    for tree in rightInRow:
+                        if value > tree:
+                            currentTreeScenicScoreValues.append(tree)
+                        elif value == tree:
+                            currentTreeScenicScoreValues.append(tree)
+                            break
+                        break
+                    for row in upperRows:
+                        if value > row[colIndex]:
+                            currentTreeScenicScoreValues.append(row[colIndex])
+                        elif value == row[colIndex]:
+                            currentTreeScenicScoreValues.append(row[colIndex])
+                            break
+                        break
+                    for row in lowerRows:
+                        if value > row[colIndex]:
+                            currentTreeScenicScoreValues.append(row[colIndex])
+                        elif value == row[colIndex]:
+                            currentTreeScenicScoreValues.append(row[colIndex])
+                            break
+                        break
+
+                    scenicScoreArrays.append(currentTreeScenicScoreValues)
+
+
+    scenicScores = []
+    for array in scenicScoreArrays:
+        if len(array) > 0:
+            scenicScores.append(math.prod(array))
+
+    print(max(scenicScores))
 
 
 
 
-    sumTrees = sumInnerTrees + len(input) + len(input) + lenRow + lenRow - 4
-    print(sumTrees, sumInnerTrees)
+    #sumInnerTrees, lenRow = calcNumOfVisibleInnerTrees(input)
+    #sumTrees = sumInnerTrees + len(input) + len(input) + lenRow + lenRow - 4
+    #print(sumTrees, sumInnerTrees)
+
+
 if __name__ == "__main__":
     main()
