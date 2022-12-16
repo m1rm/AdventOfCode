@@ -9,18 +9,14 @@ def isFullyOverlapping(splitPair1, splitPair2):
         return False
 
 def isPartlyOverlapping(splitPair1, splitPair2):
-    start1 = int(splitPair1[0])
-    end1 = int(splitPair1[1])
-    start2 = int(splitPair2[0])
-    end2 = int(splitPair2[1])
+    set1 = set(range(int(splitPair1[0]),  int(splitPair1[1])+1))
+    set2 = set(range(int(splitPair2[0]), int(splitPair2[1])+1))
+    intersection = set1.intersection(set2)
 
-    if isFullyOverlapping(splitPair1, splitPair2):
+    if (intersection):
         return True
     else:
-        if (start1 < start2 and end1 < end2 and start2 < end1) or (start2 < start1 and start1 < end2 and end2 < end1) or (start2 < start1 and end2 < end1 and start1 < end2) or (start1 < start2 and start2 < end1 and end1 < end2):
-            return True
-        else:
-            return False
+        return False
 
 def main():
     # Part One
@@ -42,6 +38,8 @@ def main():
 
         if partlyOverlapping:
             partlyScore += 1
+
+
 
 
     print('Pairs fully overlapping: ', fullyScore)
