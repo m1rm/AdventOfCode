@@ -10,15 +10,7 @@ def readInput(filename):
             tmp.append(tmpLine)
     return tmp
 
-def main():
-    input = readInput('challenge_input.txt')
-    #      0  1  2  3  4
-    #  0 [[3, 0, 3, 7, 3],
-    #  1 [2, 5, 5, 1, 2],
-    #  2 [6, 5, 3, 3, 2],
-    #  3 [3, 3, 5, 4, 9],
-    #  4 [3, 5, 3, 9, 0]]
-
+def calcNumOfVisibleInnerTrees(input):
     sumInnerTrees = 0
     lenRow = 0
     for rowIndex, row in enumerate(input):
@@ -62,6 +54,19 @@ def main():
 
                         if (value > max(tmp) or value > max(tmp2)):
                             sumInnerTrees += 1
+    return sumInnerTrees, lenRow
+
+
+def main():
+    input = readInput('challenge_input.txt')
+    #      0  1  2  3  4
+    #  0 [[3, 0, 3, 7, 3],
+    #  1 [2, 5, 5, 1, 2],
+    #  2 [6, 5, 3, 3, 2],
+    #  3 [3, 3, 5, 4, 9],
+    #  4 [3, 5, 3, 9, 0]]
+    sumInnerTrees, lenRow = calcNumOfVisibleInnerTrees(input)
+
 
 
 
