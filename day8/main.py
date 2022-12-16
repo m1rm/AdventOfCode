@@ -19,9 +19,10 @@ def main():
     #  3 [3, 3, 5, 4, 9],
     #  4 [3, 5, 3, 9, 0]]
 
-    sumTrees = 0
+    sumInnerTrees = 0
+    lenRow = 0
     for rowIndex, row in enumerate(input):
-        print(row)
+        lenRow = len(row)
         if (rowIndex == 0 or rowIndex+1 == len(input)):
             continue #bc. outer rows are always visible
         else:
@@ -40,30 +41,31 @@ def main():
                     # down is vice versa
                     leftInRow = input[rowIndex][:colIndex]
                     rightInRow = input[rowIndex][colIndex+1:]
-                    upperRows = input[:rowIndex-1]
+                    upperRows = input[:rowIndex]
                     lowerRows = input[rowIndex+1:]
-                    print(leftInRow)
-                    print(rightInRow)
+                    #print(leftInRow)
+                    #print(rightInRow)
+                    print('upper rows: ')
                     print(upperRows)
+                    print('lower rows: ')
                     print(lowerRows)
 
                     if (value > max(leftInRow) or value > max(rightInRow)):
-                        print('Item at: ', rowIndex ,'|', colIndex, 'is visible due to row check')
-                        sumTrees += 1
+                        sumInnerTrees += 1
+                        break
                     else:
                         tmp = []
+                        tmp2 = []
                         for row in upperRows:
                             tmp.append(row[colIndex])
-                        if (value > max(tmp)):
-                            sumTress += 1
-                        else:
-                            tmp = []
-                            for row in lowerRows:
-                                tmp.append(row[colIndex])
-                                if (value > max(tmp)):
-                                    sumTress += 1
+                        for row in lowerRows:
+                            tmp.append(row[colIndex])
+
+                        if (value > max(tmp) or value > max(tmp2)):
+                            sumInnerTrees += 1
 
 
-    print(sumTrees)
+    sumTrees = sumInnerTrees + len(input) + len(input) + lenRow + lenRow - 4
+    print(sumTrees, sumInnerTrees)
 if __name__ == "__main__":
     main()
