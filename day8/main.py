@@ -17,6 +17,7 @@ def main():
 
     df = pd.DataFrame(input)
     #df["rowSum"] = df.sum(axis=1)
+    #below does not take directions into account
     #if value > max(df.iloc[rowIndex].tolist()) and value > max(df.iloc[:, colIndex].tolist()):
 
     #print(df)
