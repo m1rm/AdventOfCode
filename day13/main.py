@@ -13,21 +13,22 @@ def convertStringInputToLiteralInput(input):
     for line in input:
         line = line.strip()
         output.append(line)
-    return output
+    inputPairs = split(output, 2)
+    for pair in inputPairs:
+        pair[0] = ast.literal_eval(pair[0])
+        pair[1] = ast.literal_eval(pair[1])
+        print(pair)
+    return inputPairs
 
 def split(inputList, chunkSize):
     for i in range(0, len(inputList), chunkSize):
         yield inputList[i:i+chunkSize]
 
 def main():
-    rawInput = readInput('exemplary_input.txt')
-    input = convertStringInputToLiteralInput(rawInput)
-    inputPairs = split(input, 2)
-    for pair in inputPairs:
+    raw_input = readInput('exemplary_input.txt')
+    input_pairs = convertStringInputToLiteralInput(raw_input)
+    for pair in input_pairs:
         print(pair)
-
-            # loop and compare i and i+1 and skip every even i (if loop starts at 1)
-
 
 if __name__ == "__main__":
     main()
