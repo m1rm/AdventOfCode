@@ -38,15 +38,14 @@ def partOne(input):
 def main():
     input = readInput('challenge_input.txt')
     screen = []
-    current_cycle = 1
-    line_index = 1
+    current_cycle = 0
+    line_index = 0
     x = 1
     line_terminators = [40, 80, 120, 160, 200, 240]
     screen_line = ""
     for line in input:
         if line.startswith('addx'):
             for i in range(0,2): # because addx takes two cycles to complete
-                print('adx', i, line_index)
                 if line_index in range(x-1, x+2):
                     screen_line += "#"
                 else:
@@ -54,14 +53,11 @@ def main():
                 current_cycle += 1
                 line_index += 1
                 if current_cycle in line_terminators:
-                    print('addx terminated: ', current_cycle)
                     screen.append(screen_line)
                     screen_line = ""
-                    line_index = 1
+                    line_index = 0
             x += int(line.split(' ')[1]) # after two cycles, x is moved to new position
         else: # line.startswith('noop'):
-            print('noop', line_index)
-
             if line_index in range(x-1, x+2):
                 screen_line += "#"
             else:
@@ -69,10 +65,9 @@ def main():
             current_cycle += 1
             line_index += 1
             if current_cycle in line_terminators:
-                print('noop terminated: ', current_cycle)
                 screen.append(screen_line)
                 screen_line = ""
-                line_index = 1
+                line_index = 0
 
     for line in screen:
         print(line)
