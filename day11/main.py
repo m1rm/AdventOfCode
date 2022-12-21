@@ -68,13 +68,14 @@ def main():
     input = readInput('challenge_input.txt')
     monkeys = processInput(input)
 
-    # Count the total number of times each monkey inspects items over 20 rounds
-    for i in range(0,20):
+    # Count the total number of times each monkey inspects items over 20/10000 rounds
+    for i in range(0,10000):
         for monkey, instructions in monkeys.items():
             for property in monkeys[monkey]["items"]:
                 monkeys[monkey]['inspection_count'] += 1
                 tmp = calculateWorryLevel(property, monkeys[monkey]["worry_operation"], monkeys[monkey]["worry_operand"])
-                new = int(tmp/3)
+                #new = int(tmp/3) # part one
+                new = tmp
                 if (new % monkeys[monkey]["tester"] == 0):
                     throw_target = monkeys[monkey]["passed_target"]
                 else:
@@ -84,7 +85,7 @@ def main():
 
     values = []
     for monkey, value in monkeys.items():
-        print(monkey, 'inspected items', value["inspection_count"], 'times')
+        #print(monkey, 'inspected items', value["inspection_count"], 'times')
         values.append(value["inspection_count"])
     max1 = max(values)
     values.remove(max1)
