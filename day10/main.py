@@ -10,7 +10,7 @@ def readInput(file):
     return out
 
 def partOne(input):
-   x = 1 # x is one at the start as stated by challenge description
+    x = 1 # x is one at the start as stated by challenge description
     cycles = 1
     intervals_of_interest = [20, 60, 100, 140, 180, 220]
     interval_values = {}
@@ -37,6 +37,44 @@ def partOne(input):
 
 def main():
     input = readInput('challenge_input.txt')
+    screen = []
+    current_cycle = 1
+    x = 1
+    line_terminators = [40, 80, 120, 160, 200, 240]
+    screen_line = ""
+    for line in input:
+        if line.startswith('addx'):
+            for i in range(0,2): # because addx takes two cycles to complete
+                if (x == current_cycle):
+                    screen_line += "#"
+                else:
+                    screen_line += "."
+                current_cycle += 1
+            x += ast.literal_eval(line.split(' ')[1]) # after two cycles, x is moved to new position
+            if current_cycle in line_terminators:
+                print('current_cycle in terminators: ', current_cycle)
+                screen.append(screen_line)
+                screen_line = ""
+                x += 39 # no need to start counting anew each line, just move x
+        elif line.startswith('noop'):
+            if (x == current_cycle):
+                screen_line += "#"
+            else:
+                screen_line += "."
+            current_cycle += 1
+            if current_cycle in line_terminators:
+                print('current_cycle in terminators: ', current_cycle)
+                screen.append(screen_line)
+                screen_line = ""
+                x += 39
+    print(screen)
+
+
+
+
+
+
+
 
 
 
