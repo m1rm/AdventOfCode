@@ -46,7 +46,7 @@ def main():
     for line in input:
         if line.startswith('addx'):
             for i in range(0,2): # because addx takes two cycles to complete
-                if (x == line_index):
+                if line_index in range(x-1, x+2):
                     screen_line += "#"
                 else:
                     screen_line += "."
@@ -57,9 +57,9 @@ def main():
                     screen.append(screen_line)
                     screen_line = ""
                     line_index = 1
-            x += ast.literal_eval(line.split(' ')[1]) # after two cycles, x is moved to new position
+            x += int(line.split(' ')[1]) # after two cycles, x is moved to new position
         else: # line.startswith('noop'):
-            if (x == line_index):
+            if line_index in range(x-1, x+2):
                 screen_line += "#"
             else:
                 screen_line += "."
