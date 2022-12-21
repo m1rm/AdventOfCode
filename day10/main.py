@@ -9,12 +9,11 @@ def readInput(file):
             out.append(line.strip())
     return out
 
-def partOne():
+def partOne(input):
    x = 1 # x is one at the start as stated by challenge description
     cycles = 1
     intervals_of_interest = [20, 60, 100, 140, 180, 220]
     interval_values = {}
-    input = readInput('challenge_input.txt')
     for line in input:
         if line.startswith('noop'):
             cycles += 1
@@ -37,6 +36,7 @@ def partOne():
     print('Part one result: ',result)
 
 def main():
+    input = readInput('challenge_input.txt')
 
 
 
