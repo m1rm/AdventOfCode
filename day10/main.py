@@ -53,12 +53,12 @@ def main():
                 current_cycle += 1
                 line_index += 1
                 if current_cycle in line_terminators:
-                    print('current_cycle in terminators: ', current_cycle)
+                    #print('addx terminated: ', current_cycle)
                     screen.append(screen_line)
                     screen_line = ""
                     line_index = 1
             x += ast.literal_eval(line.split(' ')[1]) # after two cycles, x is moved to new position
-        else: #line.startswith('noop'):
+        else: # line.startswith('noop'):
             if (x == line_index):
                 screen_line += "#"
             else:
@@ -66,15 +66,13 @@ def main():
             current_cycle += 1
             line_index += 1
             if current_cycle in line_terminators:
-                print('current_cycle in terminators: ', current_cycle)
+                #print('noop terminated: ', current_cycle)
                 screen.append(screen_line)
                 screen_line = ""
                 line_index = 1
 
     for line in screen:
         print(line)
-
-
 
 
 
