@@ -65,11 +65,11 @@ def calculateWorryLevel(old, worry_operation, worry_operand):
         return -1
 
 def main():
-    input = readInput('exemplary_input.txt')
+    input = readInput('challenge_input.txt')
     monkeys = processInput(input)
 
     # Count the total number of times each monkey inspects items over 20 rounds
-    for i in range(0,21):
+    for i in range(0,20):
         for monkey, instructions in monkeys.items():
             for property in monkeys[monkey]["items"]:
                 monkeys[monkey]['inspection_count'] += 1
@@ -80,10 +80,17 @@ def main():
                 else:
                     throw_target = monkeys[monkey]["failed_target"]
                 monkeys[throw_target]["items"].append(new)
-                monkeys[monkey]["items"].pop(0)
+            monkeys[monkey]["items"] = []
 
+    values = []
     for monkey, value in monkeys.items():
-        print(monkey, value["inspection_count"])
+        print(monkey, 'inspected items', value["inspection_count"], 'times')
+        values.append(value["inspection_count"])
+    max1 = max(values)
+    values.remove(max1)
+    max2 = max(values)
+    print('Monkey Business Level: ', max1 * max2)
+
 
 if __name__ == "__main__":
     main()
