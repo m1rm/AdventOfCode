@@ -9,8 +9,8 @@ def readInput(file):
             out.append(line.strip())
     return out
 
-def main():
-    x = 1 # x is one at the start as stated by challenge description
+def partOne():
+   x = 1 # x is one at the start as stated by challenge description
     cycles = 1
     intervals_of_interest = [20, 60, 100, 140, 180, 220]
     interval_values = {}
@@ -35,6 +35,9 @@ def main():
     for cycle, x in interval_values.items():
         result += (cycle * x)
     print('Part one result: ',result)
+
+def main():
+
 
 
 
