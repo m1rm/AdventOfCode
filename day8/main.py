@@ -77,6 +77,7 @@ def main():
                 if(colIndex == 0 or colIndex+1 == len(row)):
                     continue #bc. outer cols might not count
                 else:
+                    print('current tree under investigation: ', value)
                     currentTreeScenicScoreValues = []
                     # make ranges for left, right, upper and lower
                     # neighbours and check if max of value is highest
@@ -97,32 +98,40 @@ def main():
                     # value == current tree under investigation
                     # row wise
                     for index,tree in enumerate(leftInRow):
+                        print('left in row ', tree)
                         if value > tree:
                             continue
                         elif value <= tree:
                             currentTreeScenicScoreValues.append(index+1)
                             break
+                        
+                    print(currentTreeScenicScoreValues)
                     for index,tree in enumerate(rightInRow):
+                        print('right in row ', tree)
                         if value > tree:
                             continue
                         elif value <= tree:
                             currentTreeScenicScoreValues.append(index+1)
                             break
-
+                    print(currentTreeScenicScoreValues)
                     # column wise
                     for index, row in enumerate(upperRows):
+                        print('upper ', tree)
                         if value > row[colIndex]:
                             continue
                         elif value <= row[colIndex]:
                             currentTreeScenicScoreValues.append(index+1)
                             break
+                    print(currentTreeScenicScoreValues)
 
                     for index,row in enumerate(lowerRows):
+                        print('lower ', tree)
                         if value > row[colIndex]:
                             continue
                         elif value <= row[colIndex]:
                             currentTreeScenicScoreValues.append(index+1)
                             break
+                    print(currentTreeScenicScoreValues)
 
                     scenicScoreArrays.append(currentTreeScenicScoreValues)
 
