@@ -1,5 +1,4 @@
 import math
-from functools import reduce
 
 def readInput(filename):
     tmp = []
@@ -68,7 +67,7 @@ def calcNumOfVisibleInnerTrees(input):
 
 
 def main():
-    input = readInput('challenge_input.txt')
+    input = readInput('exemplary_input.txt')
     scenicScoreArrays = []
     for rowIndex, row in enumerate(input):
         if (rowIndex == 0 or rowIndex+1 == len(input)):
@@ -95,43 +94,33 @@ def main():
                     upperRows = rawUpperRows[::-1] # reverse upper row since we look from the tree
                     lowerRows = input[rowIndex+1:]
 
+                    # value == current tree under investigation
                     # row wise
                     for index,tree in enumerate(leftInRow):
                         if value > tree:
                             continue
-                        elif value == tree:
+                        elif value <= tree:
                             currentTreeScenicScoreValues.append(index+1)
-                            break
-                        else:
-                            currentTreeScenicScoreValues.append(1)
                             break
                     for index,tree in enumerate(rightInRow):
                         if value > tree:
                             continue
-                        elif value == tree:
+                        elif value <= tree:
                             currentTreeScenicScoreValues.append(index+1)
-                            break
-                        else:
-                            currentTreeScenicScoreValues.append(1)
                             break
 
                     # column wise
                     for index, row in enumerate(upperRows):
                         if value > row[colIndex]:
                             continue
-                        elif value == row[colIndex]:
+                        elif value <= row[colIndex]:
                             currentTreeScenicScoreValues.append(index+1)
                             break
-                        else:
-                            currentTreeScenicScoreValues.append(1)
-                            break
+
                     for index,row in enumerate(lowerRows):
                         if value > row[colIndex]:
                             continue
-                        elif value == row[colIndex]:
-                            currentTreeScenicScoreValues.append(index+1)
-                            break
-                        else:
+                        elif value <= row[colIndex]:
                             currentTreeScenicScoreValues.append(index+1)
                             break
 
@@ -140,7 +129,8 @@ def main():
 
     scenicScores = []
     for scoreList in scenicScoreArrays:
-        product = reduce((lambda x, y: x * y), scoreList)
+        print(scoreList)
+        product = math.prod(scoreList)
         scenicScores.append(product)
 
     print(max(scenicScores))
