@@ -1,4 +1,5 @@
 import math
+from functools import reduce
 
 def readInput(filename):
     tmp = []
@@ -67,7 +68,7 @@ def calcNumOfVisibleInnerTrees(input):
 
 
 def main():
-    input = readInput('exemplary_input.txt')
+    input = readInput('challenge_input.txt')
     scenicScoreArrays = []
     for rowIndex, row in enumerate(input):
         if (rowIndex == 0 or rowIndex+1 == len(input)):
@@ -87,13 +88,15 @@ def main():
                     # right is vice versa left
                     # up is all lower row indices and equal col index
                     # down is vice versa
-                    leftInRow = input[rowIndex][:colIndex]
+                    rawLeftInRow = input[rowIndex][:colIndex]
+                    leftInRow = rawLeftInRow[::-1] # reverse left in row since we look from the tree
                     rightInRow = input[rowIndex][colIndex+1:]
-                    upperRows = input[:rowIndex]
+                    rawUpperRows = input[:rowIndex]
+                    upperRows = rawUpperRows[::-1] # reverse upper row since we look from the tree
                     lowerRows = input[rowIndex+1:]
 
                     # row wise
-                    for index,tree in enumerate(revert(leftInRow)):
+                    for index,tree in enumerate(leftInRow):
                         if value > tree:
                             continue
                         elif value == tree:
@@ -113,7 +116,7 @@ def main():
                             break
 
                     # column wise
-                    for index, row in enumerate(revert(upperRows)):
+                    for index, row in enumerate(upperRows):
                         if value > row[colIndex]:
                             continue
                         elif value == row[colIndex]:
@@ -136,10 +139,11 @@ def main():
 
 
     scenicScores = []
-    for array in scenicScoreArrays:
-        print(array)
+    for scoreList in scenicScoreArrays:
+        product = reduce((lambda x, y: x * y), scoreList)
+        scenicScores.append(product)
 
-    #print(max(scenicScores))
+    print(max(scenicScores))
 
 
 
