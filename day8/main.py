@@ -92,44 +92,54 @@ def main():
                     upperRows = input[:rowIndex]
                     lowerRows = input[rowIndex+1:]
 
-                    for tree in leftInRow:
+                    # row wise
+                    for index,tree in enumerate(revert(leftInRow)):
                         if value > tree:
-                            currentTreeScenicScoreValues.append(tree)
+                            continue
                         elif value == tree:
-                            currentTreeScenicScoreValues.append(tree)
+                            currentTreeScenicScoreValues.append(index+1)
                             break
-                        break
-                    for tree in rightInRow:
+                        else:
+                            currentTreeScenicScoreValues.append(1)
+                            break
+                    for index,tree in enumerate(rightInRow):
                         if value > tree:
-                            currentTreeScenicScoreValues.append(tree)
+                            continue
                         elif value == tree:
-                            currentTreeScenicScoreValues.append(tree)
+                            currentTreeScenicScoreValues.append(index+1)
                             break
-                        break
-                    for row in upperRows:
+                        else:
+                            currentTreeScenicScoreValues.append(1)
+                            break
+
+                    # column wise
+                    for index, row in enumerate(revert(upperRows)):
                         if value > row[colIndex]:
-                            currentTreeScenicScoreValues.append(row[colIndex])
+                            continue
                         elif value == row[colIndex]:
-                            currentTreeScenicScoreValues.append(row[colIndex])
+                            currentTreeScenicScoreValues.append(index+1)
                             break
-                        break
-                    for row in lowerRows:
+                        else:
+                            currentTreeScenicScoreValues.append(1)
+                            break
+                    for index,row in enumerate(lowerRows):
                         if value > row[colIndex]:
-                            currentTreeScenicScoreValues.append(row[colIndex])
+                            continue
                         elif value == row[colIndex]:
-                            currentTreeScenicScoreValues.append(row[colIndex])
+                            currentTreeScenicScoreValues.append(index+1)
                             break
-                        break
+                        else:
+                            currentTreeScenicScoreValues.append(index+1)
+                            break
 
                     scenicScoreArrays.append(currentTreeScenicScoreValues)
 
 
     scenicScores = []
     for array in scenicScoreArrays:
-        if len(array) > 0:
-            scenicScores.append(math.prod(array))
+        print(array)
 
-    print(max(scenicScores))
+    #print(max(scenicScores))
 
 
 
