@@ -1,5 +1,7 @@
 ### IDE & OS specific files
 .idea
+.vs
+.vscode
 .DS_Store
 .env
 *challenge_input.txt
