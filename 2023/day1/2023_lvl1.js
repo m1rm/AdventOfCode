@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { type } = require('os')
 const readline = require('readline')
 
 const charCodeZero = "0".charCodeAt()
