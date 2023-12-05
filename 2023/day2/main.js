@@ -1,9 +1,12 @@
 const fs = require('fs')
 const readline = require('readline')
 
+// cube limits
 const redCubes = 12 
 const greenCubes = 13
 const blueCubes = 14
+
+
 
 /**
  * 
@@ -14,7 +17,7 @@ function evaluateDraws(draws) {
     let r = 1
     for (const draw of draws) {
         const tmp = draw.split(' ') // 15 red
-        const drawNum = +tmp[1] //bc. I failed to trim the whitespace
+        const drawNum = +tmp[1] // bc. I failed to trim the whitespace
 
         if (draw.indexOf('red') !== -1 && drawNum > redCubes){ r = 0 }  
         if (draw.indexOf('blue') !== -1 && drawNum > blueCubes) { r = 0 }
@@ -48,6 +51,9 @@ function evaluateGame(line){
     return r
 }
 
+
+
+
 async function processLineByLine() {
 
     const fileStream = fs.createReadStream('challenge_input.txt');
@@ -67,7 +73,7 @@ async function processLineByLine() {
         return accumulator + currentValue
     },0);
 
-    console.log(sum)
+    console.log('Part 1: ', sum)
 }
 
 processLineByLine()
