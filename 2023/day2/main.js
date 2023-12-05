@@ -6,8 +6,6 @@ const redCubes = 12
 const greenCubes = 13
 const blueCubes = 14
 
-
-
 /**
  * 
  * @param {*} draws 
@@ -52,7 +50,42 @@ function evaluateGame(line){
 }
 
 
+/**
+ * 
+ * @param {*} line 
+ * @returns power of set of cubes taken fewest number
+ * of cubes of each color so that the game is possible
+ */
+function evaluateGame2(line){
+    const tmp = line.split(':')
+    const gameResults = tmp[1].split(';')
 
+    r = {}
+    for (const round of gameResults) { // ' 15 red, 5 blue, 3 green'
+        const draws = round.split(',')
+        for (const draw of draws) {
+            const tmp = draw.split(' ') // ' 15 red'
+            const drawNum = +tmp[1]
+            const drawColor = tmp[2]
+    
+            if (r.hasOwnProperty(drawColor)) {
+                if (drawNum > r[drawColor]) {
+                    r[drawColor] = drawNum
+                }
+            }else {
+                r[drawColor] = drawNum
+            }
+        }
+
+    }
+
+    let s = 1
+    for (value of Object.values(r)) {
+        s = s * value
+    }
+
+    return s
+}
 
 async function processLineByLine() {
 
@@ -64,16 +97,24 @@ async function processLineByLine() {
     });
 
     let nums = []
+    let nums2 = []
     for await (const line of rl) {
         const num = evaluateGame(line)
+        const num2 = evaluateGame2(line)
         nums.push(num)
+        nums2.push(num2)
     }
 
     const sum = nums.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
     },0);
 
+    const sum2 = nums2.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+    },0);
+
     console.log('Part 1: ', sum)
+    console.log('Part 2: ', sum2) // 62318 = too low
 }
 
 processLineByLine()
