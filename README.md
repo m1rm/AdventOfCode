@@ -1,2 +1,2 @@
-# AdventOfCode2022
+# AdventOfCode
 My take on the [Advent of Code](https://adventofcode.com/) challenges.
