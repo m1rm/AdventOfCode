@@ -4,7 +4,7 @@ const readline = require('readline')
 const charCodeZero = "0".charCodeAt()
 const charCodeNine = "9".charCodeAt()
 
-let numsAtIndices = {} // for the second part
+let numsAtIndices = {}
 
 const numberWords = {
     'one' : 1,
@@ -69,7 +69,7 @@ function findNumber(line) {
         }
     }
 
-    return parseInt(`${firstNumber}${lastNumber}`) // for the first part
+    return parseInt(`${firstNumber}${lastNumber}`)
 }
 
 function isDigitCode(n) {
@@ -86,7 +86,6 @@ function findMinMax(arrayOfObjects) {
             key = parseInt(key)
             value = parseInt(value)
             if ((minKey !== undefined && minKey > key) || minKey === undefined) {
-                console.log(minKey,'>',key,'TRUTHY')
                 minKey = key
                 minValue = value
             }
@@ -97,26 +96,22 @@ function findMinMax(arrayOfObjects) {
         }
     })
 
-    console.log(arrayOfObjects)
-    console.log(`${minValue}${maxValue}`)
     return parseInt(`${minValue}${maxValue}`)
 }
 
 //@see https://nodejs.org/api/readline.html#readline_example_read_file_stream_line_by_line
 async function processLineByLine() {
 
-    let numbers = [] // for the first part
+    let numbers = []
     const fileStream = fs.createReadStream('test_input.txt');
 
     const rl = readline.createInterface({
         input: fileStream,
         crlfDelay: Infinity
     });
-    // Note: we use the crlfDelay option to recognize all instances of CR LF
-    // ('\r\n') in input.txt as a single line break.
 
     for await (const line of rl) {
-        findNumWord(line) // for the second part
+        findNumWord(line)
         const lineNumber = findNumber(line)
         numbers.push(lineNumber)
     }
@@ -127,17 +122,16 @@ async function processLineByLine() {
         numbers2.push(concatenatedNum)
     }
 
+    const sum = numbers.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
+    console.log('Sum 1: ', sum)
+
     const sum2 = numbers2.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
 
     console.log('Sum 2: ', sum2 )
-
-    // first part
-    const sum = numbers.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue
-      },0);
-    console.log('Sum 1: ', sum)
 }
 
 processLineByLine();

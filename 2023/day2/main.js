@@ -114,7 +114,7 @@ async function processLineByLine() {
     },0);
 
     console.log('Part 1: ', sum)
-    console.log('Part 2: ', sum2) // 62318 = too low
+    console.log('Part 2: ', sum2)
 }
 
 processLineByLine()
