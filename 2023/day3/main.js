@@ -212,7 +212,7 @@ function solvePartTwo(matrix) {
                                     //Backtrack from the digit touching the gear to find the beginning of the number and construct it from there
                                     let number = '';
                                     // if matrix[j][k] is undefined, regex.test() can handle it
-                                    // nonetheless
+                                    // nonetheless and will search for a digit in the string "undefined"
                                     while (/\d/.test(matrix[j][k])) {
                                         k--;
                                     }
