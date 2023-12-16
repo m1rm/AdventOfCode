@@ -3,6 +3,7 @@ const fs = require('fs')
 const charCodeZero = "0".charCodeAt()
 const charCodeNine = "9".charCodeAt()
 const charCodeDot = ".".charCodeAt()
+const charCodeGear = "*".charCodeAt()
 
 function createMatrix(input) {
     let matrix = []
@@ -24,6 +25,11 @@ function isNumber(n) {
 function isSymbol(n) {
     const charcode = n.charCodeAt()
     return (!isNumber(n) && charcode !== charCodeDot)
+}
+
+function isGear(n) {
+    const charcode = n.charCodeAt()
+    return (charcode === charCodeGear)
 }
 
 // an index (x or y) can never be negative
@@ -189,13 +195,59 @@ function solvePartOne(matrix) {
 
     console.log(resultPart1)
 }
+
+function solvePartTwo(matrix) {
+    let gearNumbers = []
+    matrix.forEach(function(line, y) {
+        line.forEach(function(char, x) {
+            if(isGear(char)) {
+                let numbers = [];
+                // thx https://github.com/TheCarbophile/Advent-of-Code-2023/blob/main/Day%203/index.js#L60C65-L60C65
+                for (let j = y - 1; j <= y + 1; j++) {
+                    if (matrix[j] !== undefined) {
+                        for (let k = x - 1; k <= x + 1; k++) {
+                            if (matrix[j][k] !== undefined) {
+                                if (isNumber(matrix[j][k])) {
+    
+                                    //Backtrack from the digit touching the gear to find the beginning of the number and construct it from there
+                                    let number = '';
+                                    // if matrix[j][k] is undefined, regex.test() can handle it
+                                    // nonetheless
+                                    while (/\d/.test(matrix[j][k])) {
+                                        k--;
+                                    }
+                                    k++;
+                                    while (/\d/.test(matrix[j][k])) {
+                                        number += matrix[j][k];
+                                        k++;
+                                    }
+                                    numbers.push(parseInt(number));
+                                }
+                            }
+                        }
+                    }
+                }
+                if (numbers.length === 2) {
+                    gearNumbers.push(numbers[0] * numbers[1]);
+                }
+            }
+        })
+    })
+    const resultPart2 = gearNumbers.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
+
+    console.log(resultPart2)
+
+}
  
 
 function main() {
-    const input = fs.readFileSync('test_input.txt', 'utf8').trimEnd();
+    const input = fs.readFileSync('challenge_input.txt', 'utf8').trimEnd();
     const matrix = createMatrix(input)
 
-    solvePartOne(matrix)
+    // solvePartOne(matrix)
+    solvePartTwo(matrix)
 
 }
 
