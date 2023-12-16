@@ -177,13 +177,22 @@ function findValidNumbers(matrix) {
  
 
 function main() {
-    const input = fs.readFileSync('test_input.txt', 'utf8').trimEnd();
+    const input = fs.readFileSync('challenge_input.txt', 'utf8').trimEnd();
     const matrix = createMatrix(input)
 
-    const validNumbers = findValidNumbers(matrix)
-    console.log(validNumbers)
-    // const sum = sum(validNumbers)
-    // console.log(sum)
+    const numbers = findValidNumbers(matrix)
+    // console.log(numbers)
+    numbers1 = []
+    for (numObj of numbers) {
+        if(numObj['is_valid']) {
+            numbers1.push(parseInt(numObj['numString']))
+        }
+    }
+    // console.log(numbers1)
+    const resultPart1 = numbers1.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
+    console.log(resultPart1)
 }
 
 
