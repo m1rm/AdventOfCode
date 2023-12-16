@@ -153,15 +153,13 @@ function findValidNumbers(matrix) {
         line.forEach(function(char, x)
         {
             if (isNumber(char)) {
-                // concatenate found number to numString
                 num['numString']+= char
-                // find out if current number under investigation has an adjacent symbol
+
                 const hasAdjacentSymbol = checkForAdjacentSymbol(matrix,x,y)
-                // set is_valid to true if it was not true yet && if an adjacent symbol was found
                 if (hasAdjacentSymbol) {
                     num['is_valid'] = true
                 }
-                // if next symbol is not a number, add num to array and rest it
+
                 const isNextSymbolNumber = checkNextSymbol(matrix,x,y)
                 if (!isNextSymbolNumber) {
                     validNumberObjects.push(num)
@@ -174,25 +172,31 @@ function findValidNumbers(matrix) {
     
     return validNumberObjects
 }
- 
 
-function main() {
-    const input = fs.readFileSync('challenge_input.txt', 'utf8').trimEnd();
-    const matrix = createMatrix(input)
-
+function solvePartOne(matrix) {
     const numbers = findValidNumbers(matrix)
-    // console.log(numbers)
     numbers1 = []
+
     for (numObj of numbers) {
         if(numObj['is_valid']) {
             numbers1.push(parseInt(numObj['numString']))
         }
     }
-    // console.log(numbers1)
+
     const resultPart1 = numbers1.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
+
     console.log(resultPart1)
+}
+ 
+
+function main() {
+    const input = fs.readFileSync('test_input.txt', 'utf8').trimEnd();
+    const matrix = createMatrix(input)
+
+    solvePartOne(matrix)
+
 }
 
 
