@@ -81,95 +81,55 @@ function checkForAdjacentSymbol(matrix,x,y) {
     let is_valid = false
     // NORTH CHECKS
     if (shouldCheckNorthWest) {
-        // console.log('shouldCheckNorthWest')
-        // console.log('y, northY: ', y, ',' , northY)
-        // console.log('x, northWestX', x , ',', northWestX)
-        // console.log('matrix[northY][northWestX]: ', matrix[northY][northWestX])
         is_valid = isSymbol(matrix[northY][northWestX])
     }
     if (is_valid) {
-        // console.log('Is valid in line 91: ', is_valid)
         return true
     }
     if (shouldCheckNorth) {
-        // console.log('shouldCheckNorth')
-        // console.log('y, northY: ', y, ',' , northY)
-        // console.log('x', x)
-        // console.log('matrix[northY][x]: ', matrix[northY][x])
         is_valid = isSymbol(matrix[northY][x])
     }
     if (is_valid) {
-        // console.log('Is valid in line 102: ', is_valid)
         return true
     }
     if (shouldCheckNorthEast) {
-        // console.log('shouldCheckNorthEast')
-        // console.log('y, northY: ', y, ',' , northY)
-        // console.log('x, northEastsX', x , ',', northEastX)
-        // console.log('matrix[northY][northEastX]: ', matrix[northY][northEastX])
         is_valid = isSymbol(matrix[northY][northEastX])
     }
     if (is_valid) {
-        // console.log('Is valid in line 113: ', is_valid)
         return true
     }
 
     // SAME ROW CHECKS
     if (shouldCheckWest) {
-        // console.log('shouldCheckWest')
-        // console.log('y', y)
-        // console.log('x, westX', x , ',', westX)
-        // console.log('matrix[y][westX]: ', matrix[y][westX])
         is_valid = isSymbol(matrix[y][westX])
     }
     if (is_valid) {
-        // console.log('Is valid in line 126: ', is_valid)
         return true
     }
     if (shouldCheckEast) {
-        // console.log('shouldCheckEast')
-        // console.log('y', y)
-        // console.log('x, eastX', x , ',', eastX)
-        // console.log('matrix[y][eastX]: ', matrix[y][eastX])
         is_valid = isSymbol(matrix[y][eastX])
     }
     if (is_valid) {
-        // console.log('Is valid in line 137: ', is_valid)
         return true
     }
 
     // SOUTH CHECKS
     if (shouldCheckSouthWest) {
-        // console.log('shouldCheckSouthWest')
-        // console.log('y , southY', y, ',', southY)
-        // console.log('x, southWestX', x , ',', southWestX)
-        // console.log('matrix[southY][southWestX]: ', matrix[southY][southWestX])
         is_valid = isSymbol(matrix[southY][southWestX])
     }
     if (is_valid){
-        // console.log('Is valid in line 150: ', is_valid)
         return true
     }
     if (shouldCheckSouth) {
-        // console.log('shouldCheckSouth')
-        // console.log('y , southY', y, ',', southY)
-        // console.log('x', x )
-        // console.log('matrix[southY][x]: ', matrix[southY][x])
         is_valid = isSymbol(matrix[southY][x])
     }
     if (is_valid) {
-        // console.log('Is valid in line 161: ', is_valid)
         return true
     }
     if (shouldCheckSouthEast) {
-        // console.log('shouldCheckSouthEast')
-        // console.log('y , southY', y, ',', southY)
-        // console.log('x, southEastX', x , ',', southEastX)
-        // console.log('matrix[southY][southEastX]: ', matrix[southY][southEastX])
         is_valid = isSymbol(matrix[southY][southEastX])
     }
     if (is_valid) {
-        // console.log('Is valid in line 172: ', is_valid)
         return true
     }
     return false
@@ -192,8 +152,6 @@ function findValidNumbers(matrix) {
 
         line.forEach(function(char, x)
         {
-            // console.log('current char: ', char)
-            // console.log('x,y: ', x, ',', y)
             if (isNumber(char)) {
                 // concatenate found number to numString
                 num['numString']+= char
@@ -206,7 +164,6 @@ function findValidNumbers(matrix) {
                 // if next symbol is not a number, add num to array and rest it
                 const isNextSymbolNumber = checkNextSymbol(matrix,x,y)
                 if (!isNextSymbolNumber) {
-                    // console.log('next symbol ist NaN')
                     validNumberObjects.push(num)
                     num = { 'numString': '', 'is_valid': false }
                 }
