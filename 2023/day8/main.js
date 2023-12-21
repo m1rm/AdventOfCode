@@ -64,12 +64,12 @@ function walkPaths(nodes, instructions) {
     let steps = 0
 
     for (let i = 0; i <= instructions.length; i++) {
-        if (visitedNodes1 === 'ZZZ' &&
-            visitedNodes2 === 'ZZZ' &&
-            visitedNodes3 === 'ZZZ' &&
-            visitedNodes4 === 'ZZZ' &&
-            visitedNodes5 === 'ZZZ' &&
-            visitedNodes6 === 'ZZZ') {
+        if (visitedNodes1.endsWith('Z') &&
+            visitedNodes2.endsWith('Z') &&
+            visitedNodes3.endsWith('Z') &&
+            visitedNodes4.endsWith('Z') &&
+            visitedNodes5.endsWith('Z') &&
+            visitedNodes6.endsWith('Z')) {
             return steps
         }         
         // reset i to keep looping over instructions if 
@@ -125,7 +125,7 @@ function main() {
     const nodes = parseNodes(nodeDefinitions)
 
     // cotst steps = walkPath(nodes, instructions)
-    // console.log('Part 1: ', stept)
+    // console.log('Part 1: ', steps)
 
     // findStarts(nodes)
 
