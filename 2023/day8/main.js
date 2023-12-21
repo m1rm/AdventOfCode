@@ -14,26 +14,31 @@ function parseNodes(nodeDefinitions) {
     return nodes
 }
 
-function walkPath(nodes, instructions) {
-    let nextNode = 'AAA'
+function walkPath(nodes, instructions, startNode = 'AAA', puzzle = 1) {
+    let nextNode = startNode
     let steps = 0
     for (let i = 0; i <= instructions.length; i++) {
-        if (nextNode === 'ZZZ') {
+
+        if (puzzle === 1 && nextNode === 'ZZZ') {
             return steps
-        }         
+        }
+
+        if (puzzle === 2 && nextNode.endsWith('Z')) {
+            return steps
+        }          
         // reset i to keep looping over instructions if 
         // 'ZZt' was not yet reached
         if (i === instructions.length) {
             i = 0
-        t 
+        }
 
         nodeVal = nodes.get(nextNode)
-     tmp = nodeVal[instructions[i]]
+        tmp = nodeVal[instructions[i]]
         steps +=1
         nextNode = tmp    
     }
 }
-}
+
 
 function findStarts(nodes) {
     ret = []
@@ -41,11 +46,42 @@ function findStarts(nodes) {
         const res = key.endsWith('A')
         if (res) ret.push(key);
     }
-    console.log(ret)
+    // console.log(ret)
+    return ret
 
 }
 
-function walkPaths(nodes, instructions) {
+function walkPathsSeparately(nodes, instructions) {
+    const startNodes = findStarts(nodes)
+    let steps = []
+    startNodes.forEach(node => {
+        tmp = walkPath(nodes, instructions, node, 2)
+        steps.push(tmp)
+    });
+    return steps
+}
+
+function calculateLCM(...arr) {
+    const gcd2 = (a, b) => {
+       // Greatest common divisor of 2 integers
+       if(!b) return b===0 ? a : NaN;
+          return gcd2(b, a%b);
+    };
+    const lcm2 = (a, b) => {
+       // Least common multiple of 2 integers
+       return a * b / gcd2(a, b);
+    }
+    // Least common multiple of a list of integers
+    let n = 1;
+    for(let i = 0; i < arr.length; ++i){
+       n = lcm2(arr[i], n);
+    }
+    return n;
+ };
+
+
+// simple to read but would take ~120d to complete (1 Core, 40GB RAM)
+function walkPathsNaive(nodes, instructions) {
    // use findStarts to get them printed and then use them
     let nextNode1 = 'DVA'
     let nextNode2 = 'JQA'
@@ -112,7 +148,6 @@ function walkPaths(nodes, instructions) {
     }
 }
 
-
 function main() {
     const input = fs.readFileSync('challenge_input.txt', 'utf8').trimEnd();
 
@@ -129,8 +164,11 @@ function main() {
 
     // findStarts(nodes)
 
-    const steps2 = walkPaths(nodes, instructions)
-    console.log('Part 2: ', steps2) 
+    // const steps2 = walkPathsNaive(nodes, instructions)
+    const steps2 = walkPathsSeparately = walkPathsSeparately(nodes, instructions)
+    // console.log(steps2)
+    const lcm = calculateLCM(11309, 19199, 12361, 16043, 13939, 18673)
+    console.log('Part 2: ', lcm) 
     
 }
 
