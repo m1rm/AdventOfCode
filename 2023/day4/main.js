@@ -27,30 +27,6 @@ function findIntersection(game) {
     return filteredArray
 }
 
-/**
- * 
- * @param n game number (index+1)
- * @param game game values
- * @param n_max max game number (matrix.length-1)
- * @returns 
- */
-function findWonCopies(n, game, n_max) {
-    console.log('Game ', n, ': ', game)
-    let wonCopies = []
-    const filteredArray = game[0].filter(value => game[1].includes(value));
-    // console.log('filteredArray: ', filteredArray)
-    if (filteredArray.length > 0) {
-        for (let i = 0; i < filteredArray.length; i++) {
-            wonCopy = n+i+1 // plus one more bc. i here is the index again
-            if (wonCopy < n_max) {
-                wonCopies.push(wonCopy)
-            }
-
-        }
-    }
-    return wonCopies
-}
-
 function calculatePoints(result) {
     if (result.length === 0) {
         return 0
@@ -70,18 +46,39 @@ function countPoints(winningNumbers) {
 
 function evaluateScratchcards(matrix) {
 
-    let wonCopiesPerGame1 = []
-    // TODO: loop this & abort if no more copies are yielded
-    // keep in mind: cannot yield more than matrix.length
-    for(let i = 0; i < matrix.length; i++) {
+    let amountOfCardsWonPerCard = []
+    for (let i = 0; i < matrix.length; i++) {
         const game = matrix[i]
-        const wonCopies = findWonCopies(i+1, game, matrix.length-1)
-        wonCopiesPerGame1.push(wonCopies)
+        const winningCards = findIntersection(game)
+        const amountOfWonCards = winningCards.length
+        amountOfCardsWonPerCard.push(amountOfWonCards)
     }
-    
 
+    // @see https://github.com/TineArconn/advent_of_code/blob/main/day4.js#L24
+    // idk if I will ever understand this :D
+    let total = 0
+    const recursiveCount = (subList, completeList, actualPosition) => {
+        let subTotal = 0;
+        for (let i in subList) {
+          const index = Number(i);
+          const nextPart = completeList.slice(
+            actualPosition + index + 1,
+            actualPosition + index + subList[i] + 1
+          );
+          subTotal +=
+            1 + recursiveCount(nextPart, completeList, actualPosition + index + 1);
+        }
+        return subTotal;
+      };
 
-    return wonCopiesPerGame1
+      for (let cardIndex = 0; cardIndex < amountOfCardsWonPerCard.length; cardIndex++) {
+        const start = cardIndex + 1
+        const end = cardIndex + 1 + amountOfCardsWonPerCard[cardIndex]
+        const nextPart = amountOfCardsWonPerCard.slice(start, end);
+        total += 1 + recursiveCount(nextPart, amountOfCardsWonPerCard, cardIndex + 1);
+      }
+
+    return total
 }
 
 function main() {
@@ -93,11 +90,8 @@ function main() {
     const points = countPoints(winningNumbersPerGame)
     console.log('Part 1: ', points)
 
-    const processScratchcards = evaluateScratchcards(matrix)
-    console.log(processScratchcards)
-    // const totalCards = countScratchcards(processScratchcards)
-    // console.log('Part 2: ', totalCards)
-    
+    const totalWonCards = evaluateScratchcards(matrix)
+    console.log('Part 2: ', totalWonCards)
 }
 
 
