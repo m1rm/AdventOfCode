@@ -152,6 +152,7 @@ function findLocations2(seedRanges, maps) {
     const temperatureToHumidityMap = maps['temperature-to-humidity']
     const humidityToLocationMap = maps['humidity-to-location']
 
+    let tmp = []
     for (let seedRange of seedRanges) {
         // this approach later exceeds the max obj. size since the locations array gets too big
         for (let i = seedRange['seedStart']; i <= seedRange['seedEnd']; i++) {
@@ -232,11 +233,16 @@ function findLocations2(seedRanges, maps) {
                 }
             }
 
+        if (locations.length > 16000000) {
+            tmp.push(Math.min(...locations))
+            locations = []
+        }
+        
         locations.push(location)
         }
     }
 
-    return locations
+    return Math.min(...tmp)
 }
 
 // exceeds JS obj max size of 2^24 :D
