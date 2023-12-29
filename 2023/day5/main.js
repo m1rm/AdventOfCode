@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs');
+const { parse } = require('path');
 
 const charCodeZero = "0".charCodeAt()
 const charCodeNine = "9".charCodeAt()
@@ -20,31 +21,29 @@ function extractMaps(mapInput) {
     let currentKey = ''
     for (let line of mapInput) {
         if (!isDigitCode(line[0].charCodeAt())) {
-            parsedMaps[line] = {}
+            parsedMaps[line] = []
             currentKey = line
         } else {
-           const splitLine = line.split(' ')
-           const destinationRangeStart = parseInt(splitLine[0])
-           const sourceRangeStart = parseInt(splitLine[1])
-           const rangeSize = parseInt(splitLine[2])
+            const splitLine = line.split(' ')
+            const destinationRangeStart = parseInt(splitLine[0])
+            const sourceRangeStart = parseInt(splitLine[1])
+            const rangeSize = parseInt(splitLine[2])
+            let sourceRangeEnd = 0
+            if (rangeSize === 0) {
+                sourceRangeEnd = sourceRangeStart
+            } else {
+                sourceRangeEnd = sourceRangeStart + rangeSize - 1
+            }
+            let innerMap = {}
+            innerMap['sourceRangeStart'] = sourceRangeStart
+            innerMap['sourceRangeEnd'] = sourceRangeEnd
+            innerMap['destinationRangeStart'] = destinationRangeStart
+            innerMap['range'] = rangeSize
 
-            for (let i = 0; i < rangeSize; i++) {
-                const destinationValue = destinationRangeStart + i
-                const sourceValue = sourceRangeStart + i
-                parsedMaps[currentKey][sourceValue] = destinationValue.toString()
-           }
+            parsedMaps[currentKey].push(innerMap)
         } 
     }
 
-    return parsedMaps
-}
-
-function enrichSeedToSoilMap(seeds, parsedMaps) {
-    for (let seed of seeds) {
-        if (!parsedMaps['seed-to-soil'].hasOwnProperty(seed)) {
-            parsedMaps['seed-to-soil'][seed] = seed
-        }
-    }
     return parsedMaps
 }
 
@@ -57,34 +56,97 @@ function findLocations(seeds, maps) {
     const lightToTemperatureMap = maps['light-to-temperature']
     const temperatureToHumidityMap = maps['temperature-to-humidity']
     const humidityToLocationMap = maps['humidity-to-location']
+
     for (let seed of seeds) {
-        const soil = seedToSoilMap[seed]
-        let fertilizer = soilToFertilizerMap[soil]
-        if (fertilizer === undefined) {
-            fertilizer = soil
+        // console.log('seed: ', seed )
+        let soil = 0
+        for (let range of seedToSoilMap.values()) {
+            if (seed < range['sourceRangeStart'] ||
+                seed > range['sourceRangeEnd']) {
+                    soil = seed
+            } else {
+                soil = seed - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
         }
-        let water = fertilizerToWaterMap[fertilizer]
-        if (water === undefined) {
-            water = fertilizer
         }
-        let light = waterToLightMap[water]
-        if (light === undefined) {
-            light = water
+        // console.log('soil: ', soil)
+
+        let fertilizer = 0
+        for (let range of soilToFertilizerMap) {
+            if (soil < range['sourceRangeStart'] ||
+                soil > range['sourceRangeEnd']) {
+                    fertilizer = soil
+            } else {
+                fertilizer = soil - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
         }
-        let temperature = lightToTemperatureMap[light]
-        if (temperature === undefined) {
-            temperature = light
+        // console.log('fertilizer: ', fertilizer)
+
+        let water = 0
+        for(let range of fertilizerToWaterMap) {
+            if (fertilizer < range['sourceRangeStart'] ||
+                fertilizer > range['sourceRangeEnd']) {
+                    water = fertilizer
+            } else {
+                water = fertilizer - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
         }
-        let humidity = temperatureToHumidityMap[temperature]
-        if (humidity === undefined) {
-            humidity = temperature
+        // console.log('water: ', water)
+
+        let light = 0
+        for(let range of waterToLightMap) {
+            if (water < range['sourceRangeStart'] ||
+                water > range['sourceRangeEnd']) {
+                    light = water
+            } else {
+                light = water - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
         }
-        let location = humidityToLocationMap[humidity]
-        if (location === undefined) {
-            location = humidity
+        // console.log('light: ', light)
+
+        let temperature = 0
+        for (let range of lightToTemperatureMap) {
+            if (light < range['sourceRangeStart'] ||
+                light > range['sourceRangeEnd']) {
+                    temperature = light
+            } else {
+                temperature = light - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
         }
-        locations.push(parseInt(location))
+        // console.log('temperature: ', temperature)
+
+        let humidity = 0
+        for (let range of temperatureToHumidityMap) {
+            if (temperature < range['sourceRangeStart'] ||
+                temperature > range['sourceRangeEnd']) {
+                    humidity = temperature
+            } else {
+                humidity = temperature - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
+        }
+        // console.log('humidity: ', humidity)
+
+        let location = 0
+        for (let range of humidityToLocationMap) {
+            if (humidity < range['sourceRangeStart'] || 
+                humidity > range['sourceRangeEnd']) {
+                    location = humidity
+            } else {
+                location = humidity - range['sourceRangeStart'] + range['destinationRangeStart']
+                break
+            }
+        }
+
+        // console.log('location: ', location)
+    locations.push(location)
+
     }
+
     return locations
 }
 
@@ -116,11 +178,13 @@ function main() {
     // remove the seeds
     strippedInput.shift()
 
-    const tmp = extractMaps(strippedInput)
-    const maps = enrichSeedToSoilMap(seeds, tmp)
+    const maps = extractMaps(strippedInput)
+    console.log(maps)
+    // const maps = enrichSeedToSoilMap(seeds, tmp)
 
     const locations = findLocations(seeds, maps)
-    console.log('Part 1: ', Math.min(...locations))
+    // console.log(locations)
+    console.log('Part 1: ', Math.min(...locations)) // 126235741 too low
 
 
 
