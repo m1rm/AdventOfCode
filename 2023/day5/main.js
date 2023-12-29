@@ -15,7 +15,6 @@ function isDigitCode(n) {
  * 50                      98        2
  * */ 
 
-
 function extractMaps(mapInput) {
     let parsedMaps = {}
     let currentKey = ''
@@ -47,6 +46,7 @@ function extractMaps(mapInput) {
     return parsedMaps
 }
 
+// part one
 function findLocations(seeds, maps) {
     let locations = []
     const seedToSoilMap = maps['seed-to-soil']
@@ -143,7 +143,6 @@ function findLocations(seeds, maps) {
 }
 
 function findLocations2(seedRanges, maps) {
-    let locations = []
     const seedToSoilMap = maps['seed-to-soil']
     const soilToFertilizerMap = maps['soil-to-fertilizer']
     const fertilizerToWaterMap = maps['fertilizer-to-water']
@@ -152,9 +151,9 @@ function findLocations2(seedRanges, maps) {
     const temperatureToHumidityMap = maps['temperature-to-humidity']
     const humidityToLocationMap = maps['humidity-to-location']
 
-    let tmp = []
+    let prevLocation = undefined
     for (let seedRange of seedRanges) {
-        // this approach later exceeds the max obj. size since the locations array gets too big
+        console.log('Iterating seed range: ', seedRange)
         for (let i = seedRange['seedStart']; i <= seedRange['seedEnd']; i++) {
             let soil = 0
             for (let range of seedToSoilMap.values()) {
@@ -233,39 +232,15 @@ function findLocations2(seedRanges, maps) {
                 }
             }
 
-        if (locations.length > 16000000) {
-            tmp.push(Math.min(...locations))
-            locations = []
-        }
-        
-        locations.push(location)
+            if (prevLocation === undefined || prevLocation > location) {
+                console.log('smaller location found: ', location)
+                prevLocation = location
+            }
         }
     }
 
-    return Math.min(...tmp)
+    return prevLocation
 }
-
-// exceeds JS obj max size of 2^24 :D
-// function generateSeedsFromRanges(seeds) {
-//     let seedRanges = []
-//     for (let i = 0; i < seeds.length; i+=2) {
-//         const seedStart = parseInt(seeds[i])
-//         const seedRange = parseInt(seeds[i+1])
-
-//         seedRanges.push({'seedStart': seedStart,'seedRange': seedRange})
-//     }
-
-//     let seeds2 = []
-//     for (let range of seedRanges){
-//         for (let i = 0; i < range['seedRange']; i++){
-//             const seed = range['seedStart'] + i
-//             seeds2.push(seed)
-//         }
-//     }
-
-//     return seeds2
-// }
-
 
 function generateSeedRanges(seeds) {
     let seedRanges = []
@@ -320,9 +295,6 @@ function main() {
     // console.log(seedRanges)
     const locations2 = findLocations2(seedRanges, maps)
     console.log('Part 2: ', locations2)  
-
-
-
 }
 
 main()
