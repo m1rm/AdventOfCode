@@ -142,6 +142,141 @@ function findLocations(seeds, maps) {
     return locations
 }
 
+function findLocations2(seedRanges, maps) {
+    let locations = []
+    const seedToSoilMap = maps['seed-to-soil']
+    const soilToFertilizerMap = maps['soil-to-fertilizer']
+    const fertilizerToWaterMap = maps['fertilizer-to-water']
+    const waterToLightMap = maps['water-to-light']
+    const lightToTemperatureMap = maps['light-to-temperature']
+    const temperatureToHumidityMap = maps['temperature-to-humidity']
+    const humidityToLocationMap = maps['humidity-to-location']
+
+    for (let seedRange of seedRanges) {
+        // this approach later exceeds the max obj. size since the locations array gets too big
+        for (let i = seedRange['seedStart']; i <= seedRange['seedEnd']; i++) {
+            let soil = 0
+            for (let range of seedToSoilMap.values()) {
+                if (i < range['sourceRangeStart'] ||
+                    i > range['sourceRangeEnd']) {
+                        soil = i
+                } else {
+                    soil = i - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let fertilizer = 0
+            for (let range of soilToFertilizerMap) {
+                if (soil < range['sourceRangeStart'] ||
+                    soil > range['sourceRangeEnd']) {
+                        fertilizer = soil
+                } else {
+                    fertilizer = soil - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let water = 0
+            for(let range of fertilizerToWaterMap) {
+                if (fertilizer < range['sourceRangeStart'] ||
+                    fertilizer > range['sourceRangeEnd']) {
+                        water = fertilizer
+                } else {
+                    water = fertilizer - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let light = 0
+            for(let range of waterToLightMap) {
+                if (water < range['sourceRangeStart'] ||
+                    water > range['sourceRangeEnd']) {
+                        light = water
+                } else {
+                    light = water - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let temperature = 0
+            for (let range of lightToTemperatureMap) {
+                if (light < range['sourceRangeStart'] ||
+                    light > range['sourceRangeEnd']) {
+                        temperature = light
+                } else {
+                    temperature = light - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let humidity = 0
+            for (let range of temperatureToHumidityMap) {
+                if (temperature < range['sourceRangeStart'] ||
+                    temperature > range['sourceRangeEnd']) {
+                        humidity = temperature
+                } else {
+                    humidity = temperature - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+            let location = 0
+            for (let range of humidityToLocationMap) {
+                if (humidity < range['sourceRangeStart'] || 
+                    humidity > range['sourceRangeEnd']) {
+                        location = humidity
+                } else {
+                    location = humidity - range['sourceRangeStart'] + range['destinationRangeStart']
+                    break
+                }
+            }
+
+        locations.push(location)
+        }
+    }
+
+    return locations
+}
+
+// exceeds JS obj max size of 2^24 :D
+// function generateSeedsFromRanges(seeds) {
+//     let seedRanges = []
+//     for (let i = 0; i < seeds.length; i+=2) {
+//         const seedStart = parseInt(seeds[i])
+//         const seedRange = parseInt(seeds[i+1])
+
+//         seedRanges.push({'seedStart': seedStart,'seedRange': seedRange})
+//     }
+
+//     let seeds2 = []
+//     for (let range of seedRanges){
+//         for (let i = 0; i < range['seedRange']; i++){
+//             const seed = range['seedStart'] + i
+//             seeds2.push(seed)
+//         }
+//     }
+
+//     return seeds2
+// }
+
+
+function generateSeedRanges(seeds) {
+    let seedRanges = []
+    for (let i = 0; i < seeds.length; i+=2) {
+        const seedStart = parseInt(seeds[i])
+        const seedRange = parseInt(seeds[i+1])
+        let seedEnd = 0
+        if (seedRange === 0) {
+            seedEnd = seedStart
+        } else {
+            seedEnd = seedStart + seedRange -1
+        } 
+        seedRanges.push({'seedStart': seedStart, 'seedEnd': seedEnd, 'seedRange': seedRange})
+    }
+    return seedRanges
+}
+
 function main() {
     const input = fs.readFileSync('challenge_input.txt', 'utf8').trimEnd();
 
@@ -171,10 +306,14 @@ function main() {
     strippedInput.shift()
 
     const maps = extractMaps(strippedInput)
-    console.log(maps)
 
-    const locations = findLocations(seeds, maps)
-    console.log('Part 1: ', Math.min(...locations))
+    // const locations = findLocations(seeds, maps)
+    // console.log('Part 1: ', Math.min(...locations))
+
+    const seedRanges = generateSeedRanges(seeds)
+    // console.log(seedRanges)
+    const locations2 = findLocations2(seedRanges, maps)
+    console.log('Part 2: ', locations2)  
 
 
 
