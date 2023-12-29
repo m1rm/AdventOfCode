@@ -58,7 +58,6 @@ function findLocations(seeds, maps) {
     const humidityToLocationMap = maps['humidity-to-location']
 
     for (let seed of seeds) {
-        // console.log('seed: ', seed )
         let soil = 0
         for (let range of seedToSoilMap.values()) {
             if (seed < range['sourceRangeStart'] ||
@@ -69,7 +68,6 @@ function findLocations(seeds, maps) {
                 break
         }
         }
-        // console.log('soil: ', soil)
 
         let fertilizer = 0
         for (let range of soilToFertilizerMap) {
@@ -81,7 +79,6 @@ function findLocations(seeds, maps) {
                 break
             }
         }
-        // console.log('fertilizer: ', fertilizer)
 
         let water = 0
         for(let range of fertilizerToWaterMap) {
@@ -93,7 +90,6 @@ function findLocations(seeds, maps) {
                 break
             }
         }
-        // console.log('water: ', water)
 
         let light = 0
         for(let range of waterToLightMap) {
@@ -105,7 +101,6 @@ function findLocations(seeds, maps) {
                 break
             }
         }
-        // console.log('light: ', light)
 
         let temperature = 0
         for (let range of lightToTemperatureMap) {
@@ -117,7 +112,6 @@ function findLocations(seeds, maps) {
                 break
             }
         }
-        // console.log('temperature: ', temperature)
 
         let humidity = 0
         for (let range of temperatureToHumidityMap) {
@@ -129,7 +123,6 @@ function findLocations(seeds, maps) {
                 break
             }
         }
-        // console.log('humidity: ', humidity)
 
         let location = 0
         for (let range of humidityToLocationMap) {
@@ -142,7 +135,6 @@ function findLocations(seeds, maps) {
             }
         }
 
-        // console.log('location: ', location)
     locations.push(location)
 
     }
@@ -180,11 +172,9 @@ function main() {
 
     const maps = extractMaps(strippedInput)
     console.log(maps)
-    // const maps = enrichSeedToSoilMap(seeds, tmp)
 
     const locations = findLocations(seeds, maps)
-    // console.log(locations)
-    console.log('Part 1: ', Math.min(...locations)) // 126235741 too low
+    console.log('Part 1: ', Math.min(...locations))
 
 
 
